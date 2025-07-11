@@ -1,7 +1,11 @@
 package com.ui.pages;
 
 import com.constants.Browser;
+import static com.constants.Env.*;
 import com.utility.BrowserUtility;
+import static com.utility.PropertiesUtil.*;
+
+import com.utility.JSONUtility;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -10,7 +14,8 @@ public class HomePage extends BrowserUtility{
 
     public HomePage(Browser browser) {
         super(browser);
-        goToWebsite("http://www.automationpractice.pl/index.php");
+      //  goToWebsite(readProperty(QA,"URL"));
+        goToWebsite(JSONUtility.readJson(QA));
     }
 
 
