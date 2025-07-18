@@ -8,8 +8,11 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +63,47 @@ public abstract class BrowserUtility {
             }
         }
 
+    public BrowserUtility(Browser browserName,boolean isHeadless) {
+        logger.info("Launching the browser "+browserName);// Initialize the WebDriver based on the browser type
+        if(browserName==Browser.CHROME ) {
+            if(isHeadless) {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless=new");
+            options.addArguments("--window-size=1920,1080");
+            driver.set(new ChromeDriver(options));}
+            else {
+                driver.set(new ChromeDriver());
+            }
+
+        } else if(browserName==Browser.FIREFOX) {
+            if (isHeadless) {
+                FirefoxOptions options = new FirefoxOptions();
+                options.addArguments("--headless=new");
+                options.addArguments("--window-size=1920,1080");
+                options.addArguments("--disable-gpu");
+                driver.set(new FirefoxDriver(options));
+            } else {
+                // Initialize Firefox driver here
+                driver.set(new FirefoxDriver());
+            }
+        }
+        else if(browserName==Browser.EDGE) {
+            if (isHeadless) {
+                EdgeOptions options = new EdgeOptions();
+                options.addArguments("--headless=new");
+                options.addArguments("--window-size=1920,1080");
+                options.addArguments("--disable-gpu");
+                driver.set(new EdgeDriver(options));
+            } else {
+                // Initialize Edge driver here
+                driver.set(new EdgeDriver());
+            }
+        } else {
+            logger.error("Browser not supported: " + browserName);
+            throw new IllegalArgumentException("Browser not supported: " + browserName);
+        }
+    }
+
 
     public void goToWebsite(String url) {
         logger.info("Navigating to URL: " + url);
@@ -91,7 +135,7 @@ public abstract class BrowserUtility {
         }
     }
     public String takeScreenshot(String fileName) {
-        TakesScreenshot screenshot = (TakesScreenshot) driver;
+        TakesScreenshot screenshot = (TakesScreenshot) driver.get();
         File screenshotData = screenshot.getScreenshotAs(OutputType.FILE);
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");

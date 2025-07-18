@@ -15,9 +15,15 @@ public class HomePage extends BrowserUtility{
     Logger logger = LoggerUtility.getLogger(this.getClass());
     private static final By SIGN_IN_BUTTON_LOCATOR = By.cssSelector("a.login");
 
-    public HomePage(Browser browser) {
-        super(browser);
+    public HomePage(Browser browser, boolean isHeadless) {
+        super(browser, isHeadless);
       //  goToWebsite(readProperty(QA,"URL"));
+        goToWebsite(JSONUtility.readJson(QA).getUrl());
+    }
+
+    public HomePage(WebDriver driver) {
+        super(driver);
+        //  goToWebsite(readProperty(QA,"URL"));
         goToWebsite(JSONUtility.readJson(QA).getUrl());
     }
 
