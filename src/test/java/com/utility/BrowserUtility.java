@@ -187,7 +187,7 @@ public abstract class BrowserUtility {
     public void closeBrowser() {
         logger.info("Closing the browser");
         if (driver != null) {
-         //   driver.get().quit();
+            driver.get().quit();
         }
     }
     public String takeScreenshot(String fileName) {
